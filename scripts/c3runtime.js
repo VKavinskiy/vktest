@@ -2467,56 +2467,6 @@ self["C3_Shaders"]["hexpixellate"] = {
 	animated: false,
 	parameters: [["scale",0,"float"]]
 };
-self["C3_Shaders"]["sepiamask"] = {
-	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform lowp sampler2D samplerBack;\nuniform mediump vec2 destStart;\nuniform mediump vec2 destEnd;\nvoid main(void)\n{\nlowp float fronta = texture2D(samplerFront, vTex).a;\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nlowp vec4 back = texture2D(samplerBack, mix(destStart, destEnd, tex));\nlowp vec4 sepia = back * mat4( 0.3588, 0.7044, 0.1368, 0.0,\n0.2990, 0.5870, 0.1140, 0.0,\n0.2392, 0.4696, 0.0912, 0.0,\n0.0,\t0.0,\t0.0,\t1.0);\ngl_FragColor = mix(back, vec4(sepia.r, sepia.g, sepia.b, back.a), fronta);\n}",
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: false,
-	animated: false,
-	parameters: []
-};
-self["C3_Shaders"]["lighten"] = {
-	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform lowp sampler2D samplerBack;\nuniform mediump vec2 destStart;\nuniform mediump vec2 destEnd;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\nfront.rgb /= front.a;\nmediump vec2 tex = (vTex - srcStart) / (srcEnd - srcStart);\nlowp vec4 back = texture2D(samplerBack, mix(destStart, destEnd, tex));\nback.rgb /= back.a;\nfront.rgb = max(front.rgb, back.rgb) * front.a;\ngl_FragColor = front * back.a;\n}",
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: false,
-	animated: false,
-	parameters: []
-};
-self["C3_Shaders"]["contrast"] = {
-	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform lowp float contrast;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\nlowp float a = front.a;\nif (a != 0.0)\nfront.rgb /= front.a;\nfront.rgb = (front.rgb - vec3(0.5)) * contrast + vec3(0.5);\nfront.rgb *= a;\ngl_FragColor = front;\n}",
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: true,
-	animated: false,
-	parameters: [["contrast",0,"percent"]]
-};
-self["C3_Shaders"]["gamma"] = {
-	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump float gamma;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\ngl_FragColor = vec4(pow(front.rgb, vec3(gamma)), front.a);\n}",
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: true,
-	animated: false,
-	parameters: [["gamma",0,"float"]]
-};
-self["C3_Shaders"]["brightness"] = {
-	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform lowp float brightness;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\nlowp float a = front.a;\nif (a != 0.0)\nfront.rgb /= front.a;\nfront.rgb += (brightness - 1.0);\nfront.rgb *= a;\ngl_FragColor = front;\n}",
-	extendBoxHorizontal: 0,
-	extendBoxVertical: 0,
-	crossSampling: false,
-	mustPreDraw: false,
-	preservesOpaqueness: true,
-	animated: false,
-	parameters: [["brightness",0,"percent"]]
-};
 
 
 'use strict';{const C3=self.C3;let cacheRegex=null;let lastRegex="";let lastFlags="";let regexMatches=[];let lastMatchesStr="";let lastMatchesRegex="";let lastMatchesFlags="";const forEachStack=C3.New(C3.ArrayStack);function ForEachOrdered_SortInstances(a,b){const va=a[1];const vb=b[1];if(typeof va==="number"&&typeof vb==="number")return va-vb;else{const sa=""+va;const sb=""+vb;if(sa<sb)return-1;else if(sa>sb)return 1;else return 0}}C3.Plugins.System=class SystemPlugin extends C3.SDKPluginBase{constructor(opts){super(opts);
