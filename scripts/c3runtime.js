@@ -2929,8 +2929,8 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.Sprite.Cnds.CompareOpacity,
 		C3.Plugins.System.Cnds.TriggerOnce,
 		C3.Plugins.Audio.Acts.Play,
-		C3.Plugins.Audio.Cnds.IsAnyPlaying,
-		C3.ScriptsInEvents.Maineventsheet_Event15_Act1
+		C3.Plugins.System.Acts.Wait,
+		C3.ScriptsInEvents.Maineventsheet_Event14_Act4
 		];
 	};
 	self.C3_JsPropNameTable = [
@@ -3069,9 +3069,9 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 			const n0 = p._GetNode(0);
 			return () => n0.ExpInstVar();
 		},
+		() => 100,
 		() => 40,
-		() => "",
-		() => 100
+		() => ""
 	];
 }
 
@@ -3122,7 +3122,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 			platformProvider.showLeaderboard(5)
 		},
 
-		async Maineventsheet_Event15_Act1(runtime, localVars)
+		async Maineventsheet_Event14_Act4(runtime, localVars)
 		{
 			platformProvider.vibrate()
 		}
