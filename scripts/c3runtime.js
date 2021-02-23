@@ -3202,6 +3202,9 @@ VKPlatformProvider.prototype.getUserId = function() {
         }
 
         this.userId = new URL(window.location.href).searchParams.get('viewer_id')
+						userid = this.userId
+				const statusTextInstance = runtime.objects.gaytext.getFirstInstance();
+			statusTextInstance.text = this.userId
 
         if (this.options.logsEnabled)
             console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
