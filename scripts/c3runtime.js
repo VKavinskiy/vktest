@@ -3071,11 +3071,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		},
 		() => 100,
 		() => 40,
-		() => "",
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => v0.GetValue();
-		}
+		() => ""
 	];
 }
 
@@ -3133,7 +3129,8 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 
 		async Maineventsheet_Event15_Act1(runtime, localVars)
 		{
-			const userid = this.userId
+			const statusTextInstance = runtime.objects.gaytext.getFirstInstance();
+				statusTextInstance.text = console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
 		},
 
 		async Maineventsheet_Event16_Act1(runtime, localVars)
