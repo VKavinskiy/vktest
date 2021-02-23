@@ -2930,9 +2930,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.Audio.Acts.Play,
 		C3.Plugins.System.Acts.Wait,
 		C3.ScriptsInEvents.Maineventsheet_Event13_Act4,
-		C3.Plugins.Touch.Cnds.OnTapGestureObject,
-		C3.ScriptsInEvents.Maineventsheet_Event15_Act1,
-		C3.ScriptsInEvents.Maineventsheet_Event16_Act1
+		C3.Plugins.Touch.Cnds.OnTapGestureObject
 		];
 	};
 	self.C3_JsPropNameTable = [
@@ -3071,7 +3069,11 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		},
 		() => 100,
 		() => 40,
-		() => ""
+		() => "",
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => v0.GetValue();
+		}
 	];
 }
 
@@ -3125,17 +3127,6 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		async Maineventsheet_Event13_Act4(runtime, localVars)
 		{
 			platformProvider.vibrate()
-		},
-
-		async Maineventsheet_Event15_Act1(runtime, localVars)
-		{
-			const statusTextInstance = runtime.objects.gaytext.getFirstInstance();
-				statusTextInstance.text = console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
-		},
-
-		async Maineventsheet_Event16_Act1(runtime, localVars)
-		{
-			const userid = console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
 		}
 
 	};
@@ -3196,6 +3187,8 @@ VKPlatformProvider.prototype.getUserId = function() {
 
             if (this.options.logsEnabled)
                 console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
+				userid = this.userId
+				
 
             return
         }
