@@ -2930,7 +2930,8 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.Audio.Acts.Play,
 		C3.Plugins.System.Acts.Wait,
 		C3.ScriptsInEvents.Maineventsheet_Event13_Act4,
-		C3.Plugins.Touch.Cnds.OnTapGestureObject
+		C3.Plugins.Touch.Cnds.OnTapGestureObject,
+		C3.ScriptsInEvents.Maineventsheet_Event15_Act3
 		];
 	};
 	self.C3_JsPropNameTable = [
@@ -3127,6 +3128,11 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		async Maineventsheet_Event13_Act4(runtime, localVars)
 		{
 			platformProvider.vibrate()
+		},
+
+		async Maineventsheet_Event15_Act3(runtime, localVars)
+		{
+			platformProvider.getUserId()
 		}
 
 	};
@@ -3188,6 +3194,8 @@ VKPlatformProvider.prototype.getUserId = function() {
             if (this.options.logsEnabled)
                 console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
 				userid = this.userId
+				const statusTextInstance = runtime.objects.gaytext.getFirstInstance();
+			statusTextInstance.text = this.userId
 				
 
             return
@@ -3197,7 +3205,7 @@ VKPlatformProvider.prototype.getUserId = function() {
 
         if (this.options.logsEnabled)
             console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
-
+			
         resolve(this.userId)
     })
 }
