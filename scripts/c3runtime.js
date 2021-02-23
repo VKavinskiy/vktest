@@ -2931,7 +2931,8 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.System.Acts.Wait,
 		C3.ScriptsInEvents.Maineventsheet_Event13_Act4,
 		C3.Plugins.Touch.Cnds.OnTapGestureObject,
-		C3.ScriptsInEvents.Maineventsheet_Event15_Act1
+		C3.ScriptsInEvents.Maineventsheet_Event15_Act1,
+		C3.ScriptsInEvents.Maineventsheet_Event16_Act1
 		];
 	};
 	self.C3_JsPropNameTable = [
@@ -2955,6 +2956,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		{no: 0},
 		{Audio: 0},
 		{Sprite: 0},
+		{clicker2: 0},
 		{userid: 0}
 	];
 }
@@ -3121,7 +3123,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 
 		async Maineventsheet_Event9_Act1(runtime, localVars)
 		{
-			platformProvider.showLeaderboard(5)
+			platformProvider.showLeaderboard(10)
 		},
 
 		async Maineventsheet_Event13_Act4(runtime, localVars)
@@ -3131,7 +3133,12 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 
 		async Maineventsheet_Event15_Act1(runtime, localVars)
 		{
-			const userid = platformProvider.getUserId()
+			const userid = this.userId
+		},
+
+		async Maineventsheet_Event16_Act1(runtime, localVars)
+		{
+			const userid = console.log('VKPlatformProvider.getUserId, result: ' + this.userId)
 		}
 
 	};
