@@ -2907,6 +2907,7 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.Touch,
 		C3.Plugins.Audio,
 		C3.Plugins.System.Acts.SetLayerVisible,
+		C3.Plugins.System.Acts.SetVar,
 		C3.Plugins.System.Cnds.IsGroupActive,
 		C3.Plugins.Button.Cnds.OnClicked,
 		C3.ScriptsInEvents.Maineventsheet_Event3_Act1,
@@ -2916,9 +2917,6 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.ScriptsInEvents.Maineventsheet_Event7_Act2,
 		C3.ScriptsInEvents.Maineventsheet_Event8_Act1,
 		C3.ScriptsInEvents.Maineventsheet_Event9_Act1,
-		C3.Plugins.Touch.Cnds.OnTapGestureObject,
-		C3.Plugins.Sprite.Acts.SetOpacity,
-		C3.Plugins.Sprite.Exps.Opacity,
 		C3.Plugins.System.Cnds.OnLayoutStart,
 		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Touch.Cnds.IsTouchingObject,
@@ -2926,11 +2924,14 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		C3.Plugins.Sprite.Acts.SubInstanceVar,
 		C3.Plugins.System.Cnds.EveryTick,
 		C3.Plugins.Sprite.Acts.SetEffectParam,
+		C3.Plugins.Sprite.Acts.SetOpacity,
 		C3.Plugins.Sprite.Cnds.CompareOpacity,
 		C3.Plugins.System.Cnds.TriggerOnce,
 		C3.Plugins.Audio.Acts.Play,
 		C3.Plugins.System.Acts.Wait,
-		C3.ScriptsInEvents.Maineventsheet_Event14_Act4
+		C3.ScriptsInEvents.Maineventsheet_Event13_Act4,
+		C3.Plugins.Touch.Cnds.OnTapGestureObject,
+		C3.ScriptsInEvents.Maineventsheet_Event15_Act1
 		];
 	};
 	self.C3_JsPropNameTable = [
@@ -2953,7 +2954,8 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		{noopacity: 0},
 		{no: 0},
 		{Audio: 0},
-		{Sprite: 0}
+		{Sprite: 0},
+		{userid: 0}
 	];
 }
 
@@ -3057,10 +3059,6 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 	self.C3_ExpressionFuncs = [
 		() => 0,
 		() => "Buttons",
-		p => {
-			const n0 = p._GetNode(0);
-			return () => (n0.ExpObject() - 10);
-		},
 		() => "Ты самый гейский гей? Жми кнопку до конца!",
 		() => 0.2,
 		() => 0.5,
@@ -3071,7 +3069,11 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 		},
 		() => 100,
 		() => 40,
-		() => ""
+		() => "",
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => v0.GetValue();
+		}
 	];
 }
 
@@ -3122,9 +3124,14 @@ SampleRate(){return this._sampleRate},CurrentTime(){if(self["C3_GetAudioContextC
 			platformProvider.showLeaderboard(5)
 		},
 
-		async Maineventsheet_Event14_Act4(runtime, localVars)
+		async Maineventsheet_Event13_Act4(runtime, localVars)
 		{
 			platformProvider.vibrate()
+		},
+
+		async Maineventsheet_Event15_Act1(runtime, localVars)
+		{
+			const userid = platformProvider.getUserId()
 		}
 
 	};
@@ -3282,5 +3289,70 @@ function Timer(seconds) {
             clearInterval(self._timer)
         }
     }, 1000)
+}
+
+// User script FirebaseDatabaseProvider.js
+function FirebaseDatabaseProvider(options) {
+    this.options = { ... options }
+    this.gameData = null
+}
+
+FirebaseDatabaseProvider.prototype.initialize = function() {
+    return new Promise(resolve => {
+        addJavaScript('https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js')
+            .then(() => addJavaScript('https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js'))
+            .then(() => {
+                firebase.initializeApp(this.options.firebaseConfigs)
+
+                if (this.options.logsEnabled)
+                    console.log('MEWTON_CORE.FirebaseDatabaseProvider: initialized')
+
+                resolve()
+            })
+    })
+}
+
+FirebaseDatabaseProvider.prototype.loadGameData = function() {
+    return new Promise(resolve => {
+        MEWTON_CORE.getUserId()
+            .then(userId => {
+                firebase.firestore()
+                    .collection('users')
+                    .doc(userId)
+                    .get()
+                    .then((doc) => {
+                        if (doc) {
+                            this.gameData = doc.data()
+
+                            if (this.options.logsEnabled)
+                                console.log('MEWTON_CORE.FirebaseDatabaseProvider.loadGameData, loaded: ', this.gameData)
+
+                            resolve(this.gameData)
+                        }
+                        else {
+                            resolve(null)
+                        }
+                    })
+            })
+    })
+}
+
+FirebaseDatabaseProvider.prototype.saveGameData = function(data) {
+    return new Promise(resolve => {
+        MEWTON_CORE.getUserId()
+            .then(userId => {
+                this.gameData = data
+
+                firebase.firestore()
+                    .collection('users')
+                    .doc(userId)
+                    .set(this.gameData)
+
+                if (this.options.logsEnabled)
+                    console.log('MEWTON_CORE.FirebaseDatabaseProvider.saveGameData: ', this.gameData)
+
+                resolve()
+            })
+    })
 }
 
